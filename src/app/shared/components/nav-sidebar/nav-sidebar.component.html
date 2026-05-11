@@ -1,0 +1,46 @@
+<mat-sidenav-container class="sidebar-container">
+  <mat-sidenav [mode]="'side'" [opened]="true" [class.collapsed]="collapsed">
+    <div class="sidebar-header">
+      <button mat-icon-button (click)="onToggleCollapse()">
+        <mat-icon>{{ collapsed ? 'menu' : 'menu_open' }}</mat-icon>
+      </button>
+      <span class="brand-text" *ngIf="!collapsed">Digital Banking</span>
+    </div>
+
+    <div class="user-section" *ngIf="user">
+      <div class="user-avatar">{{ userInitials }}</div>
+      <div class="user-info" *ngIf="!collapsed">
+        <span class="user-name">{{ userFullName }}</span>
+        <span class="user-email">{{ user.email }}</span>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-nav-list>
+      <mat-list-item
+        *ngFor="let item of navItems"
+        (click)="onNavigate(item.route)"
+        class="nav-item"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle *ngIf="!collapsed">{{ item.label }}</span>
+        <span matListItemMeta *ngIf="item.badge && !collapsed">
+          <span class="badge">{{ item.badge }}</span>
+        </span>
+      </mat-list-item>
+    </mat-nav-list>
+
+    <div class="sidebar-footer">
+      <mat-divider></mat-divider>
+      <mat-list-item (click)="onLogout()" class="nav-item logout-item">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <span matListItemTitle *ngIf="!collapsed">Sign Out</span>
+      </mat-list-item>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

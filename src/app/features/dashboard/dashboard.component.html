@@ -1,0 +1,60 @@
+<app-nav-sidebar
+  [user]="user"
+  [collapsed]="sidebarCollapsed"
+  (navigate)="onNavigate($event)"
+  (logout)="onLogout()"
+  (toggleCollapse)="onToggleSidebar()"
+>
+  <div class="dashboard-content">
+    <!-- Top toolbar -->
+    <mat-toolbar color="primary" class="dashboard-toolbar">
+      <span>Welcome back, {{ user?.firstName || 'Guest' }}</span>
+      <span class="toolbar-spacer"></span>
+      <app-notification-bell
+        [notifications]="alerts"
+      ></app-notification-bell>
+    </mat-toolbar>
+
+    <div class="dashboard-body">
+      <!-- Alerts -->
+      <app-alert-banner
+        [alerts]="alerts"
+        (dismiss)="onAlertDismiss($event)"
+      ></app-alert-banner>
+
+      <!-- Balance Overview -->
+      <app-balance-display
+        [accounts]="accounts"
+        [showBreakdown]="true"
+      ></app-balance-display>
+
+      <!-- Quick Actions -->
+      <div class="section">
+        <app-quick-actions></app-quick-actions>
+      </div>
+
+      <!-- Accounts Grid -->
+      <div class="section">
+        <h2 class="section-title">Your Accounts</h2>
+        <div class="accounts-grid">
+          <app-account-card
+            *ngFor="let account of accounts"
+            [account]="account"
+            (viewDetails)="onAccountViewDetails($event)"
+            (quickTransfer)="onAccountQuickTransfer($event)"
+          ></app-account-card>
+        </div>
+      </div>
+
+      <!-- Recent Transactions -->
+      <div class="section">
+        <h2 class="section-title">Recent Transactions</h2>
+        <app-transaction-table
+          [transactions]="recentTransactions"
+          [pageSize]="5"
+          (transactionSelected)="onTransactionSelected($event)"
+        ></app-transaction-table>
+      </div>
+    </div>
+  </div>
+</app-nav-sidebar>

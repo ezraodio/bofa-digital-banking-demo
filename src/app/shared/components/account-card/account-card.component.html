@@ -1,0 +1,51 @@
+<mat-card [class.compact]="compact" [class.inactive]="!isActive">
+  <mat-card-header>
+    <mat-icon mat-card-avatar>{{ accountIcon }}</mat-icon>
+    <mat-card-title>{{ account.name }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ accountTypeLabel }} · {{ maskedAccountNumber }}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="balance-section">
+      <div class="balance-row">
+        <span class="balance-label">Available Balance</span>
+        <span class="balance-amount">
+          {{ account.availableBalance | currency: account.currency }}
+        </span>
+      </div>
+      <div class="balance-row" *ngIf="!compact">
+        <span class="balance-label">Current Balance</span>
+        <span class="balance-amount secondary">
+          {{ account.balance | currency: account.currency }}
+        </span>
+      </div>
+    </div>
+
+    <div class="status-section" *ngIf="!isActive">
+      <mat-chip-list>
+        <mat-chip color="warn" selected>
+          {{ account.status }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <div class="updated-section" *ngIf="!compact">
+      <span class="updated-text">
+        Last updated: {{ account.lastUpdated | date: 'short' }}
+      </span>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions *ngIf="showActions && isActive" align="end">
+    <button mat-button color="primary" (click)="onViewDetails()">
+      <mat-icon>visibility</mat-icon>
+      View Details
+    </button>
+    <button mat-raised-button color="accent" (click)="onQuickTransfer()">
+      <mat-icon>swap_horiz</mat-icon>
+      Transfer
+    </button>
+  </mat-card-actions>
+</mat-card>

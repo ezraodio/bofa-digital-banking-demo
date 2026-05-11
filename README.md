@@ -1,27 +1,69 @@
-# BofaAngularDemo
+# Digital Banking Portal — Angular 14 Demo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.13.
+This is a sample Angular 14 application built to demonstrate Devin's migration capabilities. It mirrors the architecture of a large enterprise digital banking application.
 
-## Development server
+## Architecture
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Angular 14.2** with Angular Material 14
+- **Shared Component Library** (`src/app/shared/`) — reusable UI components built on Angular Material
+- **Custom Design System** — branded theming layer on top of Angular Material
+- **NgModule-based architecture** (Angular 14 default)
+- **SSO/MFA Integration** — mock auth service with token interceptor, auth guard, SSO session management
+- **Proprietary Analytics SDK** — event tracking service with batching, page view tracking, and custom decorator
+- **Lazy-loaded feature modules** — dashboard module loaded on demand
 
-## Code scaffolding
+## Shared Components
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+| Component | Description | Angular Material Dependencies |
+|-----------|-------------|-------------------------------|
+| `AccountCardComponent` | Displays account info with balance, type, and quick actions | MatCard, MatIcon, MatChips, MatButton |
+| `TransactionTableComponent` | Sortable, filterable, paginated transaction list | MatTable, MatPaginator, MatSort, MatFormField |
+| `NavSidebarComponent` | Collapsible navigation sidebar with user profile | MatSidenav, MatList, MatIcon, MatDivider |
+| `AlertBannerComponent` | Dismissable alert notifications (fraud, warnings, info) | MatIcon, MatButton, MatChips |
+| `SearchInputComponent` | Debounced search input with clear button | MatFormField, MatInput, MatIcon |
+| `BalanceDisplayComponent` | Total balance overview with account type breakdown | MatCard, MatIcon |
+| `NotificationBellComponent` | Notification dropdown with unread badge | MatMenu, MatBadge, MatIcon |
+| `QuickActionsComponent` | Grid of quick action buttons with analytics tracking | MatButton, MatIcon |
 
-## Build
+## Migration Target
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+The goal is to migrate this project from **Angular 14 to Angular 18**, which involves:
 
-## Running unit tests
+1. **Dependency updates** — `@angular/*` and `@angular/material` packages across 4 major versions
+2. **NgModules → Standalone components** — architectural shift introduced in Angular 15
+3. **Angular Material MDC migration** — new DOM structure, CSS class names, theming APIs (Angular 15)
+4. **Control flow syntax** — `*ngIf` → `@if`, `*ngFor` → `@for` (Angular 17)
+5. **Material 3 theming** — new theming API (Angular 18)
+6. **SSO/MFA integration preservation** — auth guard, token interceptor must remain functional
+7. **Analytics SDK compatibility** — event tracking decorators and services must continue working
+8. **Test verification** — all unit tests must pass after migration
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Running
 
-## Running end-to-end tests
+```bash
+npm install
+ng serve        # Dev server at http://localhost:4200
+ng test         # Run unit tests
+ng build        # Production build
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Project Structure
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+src/app/
+├── core/
+│   ├── auth/           # SSO/MFA authentication service
+│   └── analytics/      # Proprietary analytics SDK
+├── shared/
+│   ├── components/     # 8 shared UI components
+│   ├── decorators/     # Analytics event tracking decorator
+│   ├── guards/         # Auth guard (CanActivate, CanActivateChild)
+│   ├── interceptors/   # Token interceptor with SSO headers
+│   ├── models/         # TypeScript interfaces and enums
+│   └── shared.module.ts
+├── features/
+│   └── dashboard/      # Lazy-loaded dashboard module
+├── app.module.ts       # Root module with HTTP interceptor registration
+├── app-routing.module.ts  # Routing with auth guard
+└── app.component.ts    # Root component with analytics initialization
+```

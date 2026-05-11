@@ -1,0 +1,84 @@
+.transaction-table-container {
+  width: 100%;
+}
+
+.filter-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.transaction-table {
+  width: 100%;
+}
+
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.description-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.merchant-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.description-text {
+  font-size: 12px;
+  color: #666;
+}
+
+.amount-credit {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.amount-debit {
+  color: #1a1a2e;
+  font-weight: 500;
+}
+
+.amount-fee {
+  color: #c62828;
+  font-weight: 500;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-posted {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-pending {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.status-declined {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.no-data {
+  text-align: center;
+  padding: 24px;
+  color: #999;
+}
