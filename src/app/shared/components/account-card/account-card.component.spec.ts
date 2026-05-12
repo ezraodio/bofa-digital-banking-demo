@@ -1,8 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatButtonModule } from '@angular/material/button';
 import { AccountCardComponent } from './account-card.component';
 import {
   Account,
@@ -28,8 +24,7 @@ describe('AccountCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AccountCardComponent],
-      imports: [MatCardModule, MatIconModule, MatChipsModule, MatButtonModule],
+      imports: [AccountCardComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AccountCardComponent);

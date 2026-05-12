@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../../core/auth/auth.service';
 import { AnalyticsService } from '../../core/analytics/analytics.service';
 import {
@@ -12,9 +13,27 @@ import {
   AlertType,
   UserProfile,
 } from '../../shared/models/account.model';
+import { NavSidebarComponent } from '../../shared/components/nav-sidebar/nav-sidebar.component';
+import { NotificationBellComponent } from '../../shared/components/notification-bell/notification-bell.component';
+import { AlertBannerComponent } from '../../shared/components/alert-banner/alert-banner.component';
+import { BalanceDisplayComponent } from '../../shared/components/balance-display/balance-display.component';
+import { QuickActionsComponent } from '../../shared/components/quick-actions/quick-actions.component';
+import { AccountCardComponent } from '../../shared/components/account-card/account-card.component';
+import { TransactionTableComponent } from '../../shared/components/transaction-table/transaction-table.component';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
+  imports: [
+    MatToolbarModule,
+    NavSidebarComponent,
+    NotificationBellComponent,
+    AlertBannerComponent,
+    BalanceDisplayComponent,
+    QuickActionsComponent,
+    AccountCardComponent,
+    TransactionTableComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })

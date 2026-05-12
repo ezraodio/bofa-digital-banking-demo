@@ -1,8 +1,23 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatDividerModule } from '@angular/material/divider';
 import { Alert } from '../../models/account.model';
 
 @Component({
   selector: 'app-notification-bell',
+  standalone: true,
+  imports: [
+    DatePipe,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatBadgeModule,
+    MatDividerModule,
+  ],
   template: `
     <button
       mat-icon-button
@@ -18,27 +33,32 @@ import { Alert } from '../../models/account.model';
     <mat-menu #notificationMenu="matMenu" class="notification-menu">
       <div class="notification-header" (click)="$event.stopPropagation()">
         <span>Notifications</span>
-        <button mat-button color="primary" *ngIf="unreadCount > 0" (click)="onMarkAllRead()">
-          Mark all read
-        </button>
+        @if (unreadCount > 0) {
+          <button mat-button color="primary" (click)="onMarkAllRead()">
+            Mark all read
+          </button>
+        }
       </div>
       <mat-divider></mat-divider>
-      <button
-        mat-menu-item
-        *ngFor="let notification of notifications"
-        [class.unread]="!notification.read"
-        (click)="onNotificationClick(notification)"
-      >
-        <mat-icon>{{ notification.read ? 'notifications_none' : 'notifications_active' }}</mat-icon>
-        <div class="notification-content">
-          <span class="notification-title">{{ notification.title }}</span>
-          <span class="notification-time">{{ notification.timestamp | date: 'short' }}</span>
+      @for (notification of notifications; track notification.id) {
+        <button
+          mat-menu-item
+          [class.unread]="!notification.read"
+          (click)="onNotificationClick(notification)"
+        >
+          <mat-icon>{{ notification.read ? 'notifications_none' : 'notifications_active' }}</mat-icon>
+          <div class="notification-content">
+            <span class="notification-title">{{ notification.title }}</span>
+            <span class="notification-time">{{ notification.timestamp | date: 'short' }}</span>
+          </div>
+        </button>
+      }
+      @if (notifications.length === 0) {
+        <div class="empty-state">
+          <mat-icon>notifications_off</mat-icon>
+          <span>No notifications</span>
         </div>
-      </button>
-      <div *ngIf="notifications.length === 0" class="empty-state">
-        <mat-icon>notifications_off</mat-icon>
-        <span>No notifications</span>
-      </div>
+      }
     </mat-menu>
   `,
   styles: [

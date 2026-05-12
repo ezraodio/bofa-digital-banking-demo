@@ -1,10 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
 import { NotificationBellComponent } from './notification-bell.component';
 import { Alert, AlertType } from '../../models/account.model';
 
@@ -33,15 +28,7 @@ describe('NotificationBellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NotificationBellComponent],
-      imports: [
-        NoopAnimationsModule,
-        MatIconModule,
-        MatMenuModule,
-        MatBadgeModule,
-        MatButtonModule,
-        MatDividerModule,
-      ],
+      imports: [NoopAnimationsModule, NotificationBellComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NotificationBellComponent);

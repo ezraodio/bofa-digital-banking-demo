@@ -1,99 +1,97 @@
-import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
 import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
+  HttpInterceptorFn,
   HttpRequest,
+  HttpHandlerFn,
+  HttpEvent,
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService, AuthToken } from '../../core/auth/auth.service';
 
-@Injectable()
-export class TokenInterceptor implements HttpInterceptor {
-  private isRefreshing = false;
-  private refreshTokenSubject = new BehaviorSubject<AuthToken | null>(null);
+let isRefreshing = false;
+const refreshTokenSubject = new BehaviorSubject<AuthToken | null>(null);
 
-  constructor(private authService: AuthService) {}
+export const tokenInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> => {
+  const authService = inject(AuthService);
+  const token = authService.currentToken;
 
-  intercept(
-    request: HttpRequest<unknown>,
-    next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
-    const token = this.authService.currentToken;
-
-    if (token) {
-      request = this.addToken(request, token.accessToken);
-      request = this.addSsoHeaders(request, token.ssoSessionId);
-    }
-
-    return next.handle(request).pipe(
-      catchError((error) => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          return this.handle401Error(request, next);
-        }
-        return throwError(() => error);
-      })
-    );
+  let request = req;
+  if (token) {
+    request = addToken(request, token.accessToken);
+    request = addSsoHeaders(request, token.ssoSessionId);
   }
 
-  private addToken(
-    request: HttpRequest<unknown>,
-    token: string
-  ): HttpRequest<unknown> {
-    return request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
+  return next(request).pipe(
+    catchError((error) => {
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        return handle401Error(request, next, authService);
+      }
+      return throwError(() => error);
+    })
+  );
+};
 
-  private addSsoHeaders(
-    request: HttpRequest<unknown>,
-    ssoSessionId: string
-  ): HttpRequest<unknown> {
-    return request.clone({
-      setHeaders: {
-        'X-SSO-Session-Id': ssoSessionId,
-        'X-Request-Id': this.generateRequestId(),
-        'X-Client-Version': '14.2.0',
-      },
-    });
-  }
+function addToken(
+  request: HttpRequest<unknown>,
+  token: string
+): HttpRequest<unknown> {
+  return request.clone({
+    setHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
 
-  private handle401Error(
-    request: HttpRequest<unknown>,
-    next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
+function addSsoHeaders(
+  request: HttpRequest<unknown>,
+  ssoSessionId: string
+): HttpRequest<unknown> {
+  return request.clone({
+    setHeaders: {
+      'X-SSO-Session-Id': ssoSessionId,
+      'X-Request-Id': generateRequestId(),
+      'X-Client-Version': '18.2.0',
+    },
+  });
+}
 
-      return this.authService.refreshToken().pipe(
-        switchMap((token) => {
-          this.isRefreshing = false;
-          this.refreshTokenSubject.next(token);
-          return next.handle(this.addToken(request, token.accessToken));
-        }),
-        catchError((err) => {
-          this.isRefreshing = false;
-          this.authService.logout();
-          return throwError(() => err);
-        })
-      );
-    }
+function handle401Error(
+  request: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+  authService: AuthService
+): Observable<HttpEvent<unknown>> {
+  if (!isRefreshing) {
+    isRefreshing = true;
+    refreshTokenSubject.next(null);
 
-    return this.refreshTokenSubject.pipe(
-      filter((token) => token !== null),
-      take(1),
+    return authService.refreshToken().pipe(
       switchMap((token) => {
-        return next.handle(this.addToken(request, token!.accessToken));
+        isRefreshing = false;
+        refreshTokenSubject.next(token);
+        return next(addToken(request, token.accessToken));
+      }),
+      catchError((err) => {
+        isRefreshing = false;
+        authService.logout();
+        return throwError(() => err);
       })
     );
   }
 
-  private generateRequestId(): string {
-    return `req_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-  }
+  return refreshTokenSubject.pipe(
+    filter((token) => token !== null),
+    take(1),
+    switchMap((token) => {
+      return next(addToken(request, token!.accessToken));
+    })
+  );
+}
+
+function generateRequestId(): string {
+  return `req_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 }

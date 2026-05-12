@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { TrackEvent } from '../../decorators/track-event.decorator';
 
 export interface QuickAction {
@@ -10,20 +12,23 @@ export interface QuickAction {
 
 @Component({
   selector: 'app-quick-actions',
+  standalone: true,
+  imports: [MatButtonModule, MatIconModule],
   template: `
     <div class="quick-actions">
       <h3>Quick Actions</h3>
       <div class="actions-grid">
-        <button
-          mat-raised-button
-          *ngFor="let action of actions"
-          [color]="action.color"
-          (click)="onAction(action)"
-          class="action-button"
-        >
-          <mat-icon>{{ action.icon }}</mat-icon>
-          <span>{{ action.label }}</span>
-        </button>
+        @for (action of actions; track action.id) {
+          <button
+            mat-raised-button
+            [color]="action.color"
+            (click)="onAction(action)"
+            class="action-button"
+          >
+            <mat-icon>{{ action.icon }}</mat-icon>
+            <span>{{ action.label }}</span>
+          </button>
+        }
       </div>
     </div>
   `,

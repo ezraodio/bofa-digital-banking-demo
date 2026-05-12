@@ -1,10 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
 import { NavSidebarComponent } from './nav-sidebar.component';
 import { UserProfile } from '../../models/account.model';
 
@@ -33,15 +28,7 @@ describe('NavSidebarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NavSidebarComponent],
-      imports: [
-        NoopAnimationsModule,
-        MatSidenavModule,
-        MatListModule,
-        MatIconModule,
-        MatDividerModule,
-        MatButtonModule,
-      ],
+      imports: [NoopAnimationsModule, NavSidebarComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavSidebarComponent);

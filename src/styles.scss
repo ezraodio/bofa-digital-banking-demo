@@ -1,13 +1,11 @@
 // =============================================================================
-// BofA Digital Banking — Custom Design System Theme
+// BofA Digital Banking — Custom Design System Theme (Angular Material 18 / M3)
 // Enterprise component library theming layer on Angular Material
 // Owner: Platform Engineering — Design Systems Team
-// Last updated: 2024-01-15
+// Migrated to Material 3 theming API — Angular 18
 // =============================================================================
 
 @use '@angular/material' as mat;
-
-@include mat.core();
 
 // ---------------------------------------------------------------------------
 // BofA Brand Palette
@@ -22,7 +20,7 @@ $bofa-red: (
   200: #f1909f,
   300: #eb6479,
   400: #e7435c,
-  500: #c41230,  // BofA primary red
+  500: #c41230,
   600: #b3102b,
   700: #9e0d25,
   800: #8a0b1f,
@@ -55,7 +53,7 @@ $bofa-navy: (
   200: #8b92a8,
   300: #5d6785,
   400: #3a466b,
-  500: #012169,  // BofA navy blue
+  500: #012169,
   600: #011d5f,
   700: #011854,
   800: #011349,
@@ -82,24 +80,24 @@ $bofa-navy: (
   )
 );
 
-$bofa-primary: mat.define-palette($bofa-red, 500, 300, 800);
-$bofa-accent:  mat.define-palette($bofa-navy, 500, 300, 800);
-$bofa-warn:    mat.define-palette(mat.$red-palette);
+$bofa-primary: mat.m2-define-palette($bofa-red, 500, 300, 800);
+$bofa-accent:  mat.m2-define-palette($bofa-navy, 500, 300, 800);
+$bofa-warn:    mat.m2-define-palette(mat.$m2-red-palette);
 
 // ---------------------------------------------------------------------------
 // Theme Configuration
-// Uses legacy define-light-theme API (Angular Material 14)
-// Migration note: must update to M3 theming API in Angular Material 18
+// Uses Angular Material 18 theming API with custom BofA palettes
 // ---------------------------------------------------------------------------
-$bofa-theme: mat.define-light-theme((
+$bofa-theme: mat.m2-define-light-theme((
   color: (
     primary: $bofa-primary,
     accent: $bofa-accent,
     warn: $bofa-warn,
   ),
-  typography: mat.define-typography-config(
+  typography: mat.m2-define-typography-config(
     $font-family: '"Connections", "Helvetica Neue", Helvetica, Arial, sans-serif',
   ),
+  density: 0,
 ));
 
 @include mat.all-component-themes($bofa-theme);
@@ -124,12 +122,12 @@ body {
   }
 }
 
-.mat-card {
+.mat-mdc-card {
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
-.mat-raised-button {
+.mat-mdc-raised-button {
   &.mat-accent {
     background-color: #012169;
     color: #ffffff;

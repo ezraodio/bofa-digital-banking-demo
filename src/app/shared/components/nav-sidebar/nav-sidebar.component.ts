@@ -1,4 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 import { UserProfile } from '../../models/account.model';
 
 export interface NavItem {
@@ -11,6 +16,14 @@ export interface NavItem {
 
 @Component({
   selector: 'app-nav-sidebar',
+  standalone: true,
+  imports: [
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatDividerModule,
+    MatButtonModule,
+  ],
   templateUrl: './nav-sidebar.component.html',
   styleUrls: ['./nav-sidebar.component.scss'],
 })

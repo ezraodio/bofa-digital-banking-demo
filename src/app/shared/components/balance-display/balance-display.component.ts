@@ -1,8 +1,13 @@
 import { Component, Input } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { Account, AccountType } from '../../models/account.model';
 
 @Component({
   selector: 'app-balance-display',
+  standalone: true,
+  imports: [CurrencyPipe, MatCardModule, MatIconModule],
   template: `
     <div class="balance-overview">
       <mat-card class="total-card">
@@ -13,12 +18,16 @@ import { Account, AccountType } from '../../models/account.model';
         </mat-card-header>
         <mat-card-content>
           <div class="total-amount">{{ totalBalance | currency }}</div>
-          <div class="breakdown" *ngIf="showBreakdown">
-            <div class="breakdown-item" *ngFor="let item of balanceBreakdown">
-              <span class="breakdown-label">{{ item.label }}</span>
-              <span class="breakdown-value">{{ item.amount | currency }}</span>
+          @if (showBreakdown) {
+            <div class="breakdown">
+              @for (item of balanceBreakdown; track item.label) {
+                <div class="breakdown-item">
+                  <span class="breakdown-label">{{ item.label }}</span>
+                  <span class="breakdown-value">{{ item.amount | currency }}</span>
+                </div>
+              }
             </div>
-          </div>
+          }
         </mat-card-content>
       </mat-card>
     </div>

@@ -37,12 +37,13 @@
       <div class="section">
         <h2 class="section-title">Your Accounts</h2>
         <div class="accounts-grid">
-          <app-account-card
-            *ngFor="let account of accounts"
-            [account]="account"
-            (viewDetails)="onAccountViewDetails($event)"
-            (quickTransfer)="onAccountQuickTransfer($event)"
-          ></app-account-card>
+          @for (account of accounts; track account.id) {
+            <app-account-card
+              [account]="account"
+              (viewDetails)="onAccountViewDetails($event)"
+              (quickTransfer)="onAccountQuickTransfer($event)"
+            ></app-account-card>
+          }
         </div>
       </div>
 

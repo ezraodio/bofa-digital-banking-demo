@@ -1,8 +1,22 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonModule } from '@angular/material/button';
 import { Account, AccountType, AccountStatus } from '../../models/account.model';
 
 @Component({
   selector: 'app-account-card',
+  standalone: true,
+  imports: [
+    CurrencyPipe,
+    DatePipe,
+    MatCardModule,
+    MatIconModule,
+    MatChipsModule,
+    MatButtonModule,
+  ],
   templateUrl: './account-card.component.html',
   styleUrls: ['./account-card.component.scss'],
 })
