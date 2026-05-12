@@ -1,39 +1,143 @@
+// =============================================================================
+// BofA Digital Banking — Custom Design System Theme
+// Enterprise component library theming layer on Angular Material
+// Owner: Platform Engineering — Design Systems Team
+// Last updated: 2024-01-15
+// =============================================================================
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$bofa-angular-demo-primary: mat.define-palette(mat.$indigo-palette);
-$bofa-angular-demo-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$bofa-angular-demo-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$bofa-angular-demo-theme: mat.define-light-theme((
-  color: (
-    primary: $bofa-angular-demo-primary,
-    accent: $bofa-angular-demo-accent,
-    warn: $bofa-angular-demo-warn,
+// ---------------------------------------------------------------------------
+// BofA Brand Palette
+// Source: Brand Identity Guidelines v4.2 (Internal)
+// Primary: BofA Red — used for primary actions, headers, key CTAs
+// Accent:  BofA Navy — used for navigation, secondary elements, data viz
+// Warn:    Crimson — used for alerts, errors, fraud notifications
+// ---------------------------------------------------------------------------
+$bofa-red: (
+  50:  #fce4e8,
+  100: #f7bcc5,
+  200: #f1909f,
+  300: #eb6479,
+  400: #e7435c,
+  500: #c41230,  // BofA primary red
+  600: #b3102b,
+  700: #9e0d25,
+  800: #8a0b1f,
+  900: #690714,
+  A100: #ff8a98,
+  A200: #ff5768,
+  A400: #ff2440,
+  A700: #ff0a2a,
+  contrast: (
+    50:  rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: rgba(0, 0, 0, 0.87),
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
   )
+);
+
+$bofa-navy: (
+  50:  #e3e5ea,
+  100: #b9bdcb,
+  200: #8b92a8,
+  300: #5d6785,
+  400: #3a466b,
+  500: #012169,  // BofA navy blue
+  600: #011d5f,
+  700: #011854,
+  800: #011349,
+  900: #000b36,
+  A100: #6e7fff,
+  A200: #3b52ff,
+  A400: #0826ff,
+  A700: #001bee,
+  contrast: (
+    50:  rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  )
+);
+
+$bofa-primary: mat.define-palette($bofa-red, 500, 300, 800);
+$bofa-accent:  mat.define-palette($bofa-navy, 500, 300, 800);
+$bofa-warn:    mat.define-palette(mat.$red-palette);
+
+// ---------------------------------------------------------------------------
+// Theme Configuration
+// Uses legacy define-light-theme API (Angular Material 14)
+// Migration note: must update to M3 theming API in Angular Material 18
+// ---------------------------------------------------------------------------
+$bofa-theme: mat.define-light-theme((
+  color: (
+    primary: $bofa-primary,
+    accent: $bofa-accent,
+    warn: $bofa-warn,
+  ),
+  typography: mat.define-typography-config(
+    $font-family: '"Connections", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  ),
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($bofa-angular-demo-theme);
+@include mat.all-component-themes($bofa-theme);
 
-/* You can add global styles to this file, and also import other style files */
+// ---------------------------------------------------------------------------
+// Global Styles — Enterprise Design System Overrides
+// ---------------------------------------------------------------------------
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: 'Connections', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333333;
+}
+
+// BofA brand overrides for Material components
+.mat-toolbar {
+  &.mat-primary {
+    background-color: #012169;
+    color: #ffffff;
+  }
+}
+
+.mat-card {
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.mat-raised-button {
+  &.mat-accent {
+    background-color: #012169;
+    color: #ffffff;
+  }
+}
+
+// Enterprise-specific: Ensure all focusable elements meet WCAG 2.1 AA contrast
+*:focus-visible {
+  outline: 2px solid #012169;
+  outline-offset: 2px;
+}

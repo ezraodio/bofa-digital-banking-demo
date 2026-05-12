@@ -34,6 +34,7 @@ import { SearchInputComponent } from './components/search-input/search-input.com
 import { BalanceDisplayComponent } from './components/balance-display/balance-display.component';
 import { NotificationBellComponent } from './components/notification-bell/notification-bell.component';
 import { QuickActionsComponent } from './components/quick-actions/quick-actions.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 const MATERIAL_MODULES = [
   MatCardModule,
@@ -68,6 +69,7 @@ const SHARED_COMPONENTS = [
   BalanceDisplayComponent,
   NotificationBellComponent,
   QuickActionsComponent,
+  ConfirmDialogComponent,
 ];
 
 @NgModule({
@@ -79,5 +81,8 @@ const SHARED_COMPONENTS = [
     ...MATERIAL_MODULES,
     ...SHARED_COMPONENTS,
   ],
+  // Legacy entryComponents — required for dynamic dialog components in pre-Ivy ViewEngine.
+  // Angular 13+ with Ivy no longer requires this, but many enterprise codebases retain it.
+  entryComponents: [ConfirmDialogComponent],
 })
 export class SharedModule {}
