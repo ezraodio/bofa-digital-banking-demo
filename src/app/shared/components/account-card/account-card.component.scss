@@ -55,6 +55,19 @@ mat-card {
   margin: 12px 0;
 }
 
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.warn {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+}
+
 .updated-text {
   font-size: 12px;
   color: #999;

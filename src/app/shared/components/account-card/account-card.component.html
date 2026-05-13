@@ -24,11 +24,9 @@
     </div>
 
     <div class="status-section" *ngIf="!isActive">
-      <mat-chip-list>
-        <mat-chip color="warn" selected>
-          {{ account.status }}
-        </mat-chip>
-      </mat-chip-list>
+      <span class="status-badge warn">
+        {{ account.status }}
+      </span>
     </div>
 
     <div class="updated-section" *ngIf="!compact">
