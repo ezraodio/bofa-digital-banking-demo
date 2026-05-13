@@ -1,8 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { Alert, AlertType } from '../../models/account.model';
 
 @Component({
   selector: 'app-alert-banner',
+  standalone: true,
+  imports: [CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './alert-banner.component.html',
   styleUrls: ['./alert-banner.component.scss'],
 })

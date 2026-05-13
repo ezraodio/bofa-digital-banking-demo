@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { AnalyticsService } from '../../core/services/analytics.service';
 import { ChipFilter } from '../../shared/components/chip-filter/chip-filter.component';
+import { AccountCardComponent } from '../../shared/components/account-card/account-card.component';
+import { AlertBannerComponent } from '../../shared/components/alert-banner/alert-banner.component';
+import { BalanceWidgetComponent } from '../../shared/components/balance-widget/balance-widget.component';
+import { ChipFilterComponent } from '../../shared/components/chip-filter/chip-filter.component';
+import { TransactionListComponent } from '../../shared/components/transaction-list/transaction-list.component';
 import {
   Account,
   AccountType,
@@ -18,6 +24,15 @@ import {
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
+  imports: [
+    CommonModule,
+    AccountCardComponent,
+    AlertBannerComponent,
+    BalanceWidgetComponent,
+    ChipFilterComponent,
+    TransactionListComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
