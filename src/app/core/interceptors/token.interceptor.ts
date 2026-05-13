@@ -1,84 +1,85 @@
-import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
 import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
+  HttpInterceptorFn,
   HttpRequest,
+  HttpHandlerFn,
+  HttpEvent,
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 
-@Injectable()
-export class TokenInterceptor implements HttpInterceptor {
-  private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+let isRefreshing = false;
+const refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-  constructor(private authService: AuthService) {}
+function addHeaders(
+  request: HttpRequest<unknown>,
+  token: string,
+  authService: AuthService
+): HttpRequest<unknown> {
+  return request.clone({
+    setHeaders: {
+      'Authorization': `Bearer ${token}`,
+      'X-SSO-Session-Id': authService.getSessionId(),
+      'X-Request-Id': generateRequestId(),
+      'X-Client-Version': '2.14.0',
+    },
+  });
+}
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const token = this.authService.getToken();
-    if (token) {
-      request = this.addHeaders(request, token);
-    }
-    return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          return this.handle401Error(request, next);
-        }
-        return throwError(() => error);
+function generateRequestId(): string {
+  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+}
+
+function handle401Error(
+  request: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+  authService: AuthService
+): Observable<HttpEvent<unknown>> {
+  if (!isRefreshing) {
+    isRefreshing = true;
+    refreshTokenSubject.next(null);
+
+    return authService.refreshToken().pipe(
+      switchMap((token: string) => {
+        isRefreshing = false;
+        refreshTokenSubject.next(token);
+        return next(addHeaders(request, token, authService));
+      }),
+      catchError((err) => {
+        isRefreshing = false;
+        authService.logout();
+        return throwError(() => err);
       })
     );
   }
 
-  private addHeaders(
-    request: HttpRequest<any>,
-    token: string
-  ): HttpRequest<any> {
-    return request.clone({
-      setHeaders: {
-        'Authorization': `Bearer ${token}`,
-        'X-SSO-Session-Id': this.authService.getSessionId(),
-        'X-Request-Id': this.generateRequestId(),
-        'X-Client-Version': '2.14.0',
-      },
-    });
-  }
-
-  private generateRequestId(): string {
-    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  private handle401Error(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
-
-      return this.authService.refreshToken().pipe(
-        switchMap((token: string) => {
-          this.isRefreshing = false;
-          this.refreshTokenSubject.next(token);
-          return next.handle(this.addHeaders(request, token));
-        }),
-        catchError((err) => {
-          this.isRefreshing = false;
-          this.authService.logout();
-          return throwError(() => err);
-        })
-      );
-    }
-
-    return this.refreshTokenSubject.pipe(
-      filter(token => token !== null),
-      take(1),
-      switchMap(token => next.handle(this.addHeaders(request, token!)))
-    );
-  }
+  return refreshTokenSubject.pipe(
+    filter(token => token !== null),
+    take(1),
+    switchMap(token => next(addHeaders(request, token!, authService)))
+  );
 }
+
+export const tokenInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> => {
+  const authService = inject(AuthService);
+  const token = authService.getToken();
+
+  let request = req;
+  if (token) {
+    request = addHeaders(req, token, authService);
+  }
+
+  return next(request).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        return handle401Error(request, next, authService);
+      }
+      return throwError(() => error);
+    })
+  );
+};
