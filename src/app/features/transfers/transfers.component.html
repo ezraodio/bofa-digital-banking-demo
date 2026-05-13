@@ -12,19 +12,23 @@
             [accounts]="accounts"
             (transferSubmit)="onTransferSubmit($event)">
           </app-transfer-form>
-          <div *ngIf="transferSuccess" class="success-message">
-            Transfer submitted successfully!
-          </div>
+          @if (transferSuccess) {
+            <div class="success-message">
+              Transfer submitted successfully!
+            </div>
+          }
         </mat-card-content>
       </mat-card>
     </div>
 
-    <div class="selected-account" *ngIf="selectedAccount">
-      <h3>Source Account</h3>
-      <app-account-card
-        [account]="selectedAccount"
-        (viewDetails)="selectAccount($event)">
-      </app-account-card>
-    </div>
+    @if (selectedAccount) {
+      <div class="selected-account">
+        <h3>Source Account</h3>
+        <app-account-card
+          [account]="selectedAccount"
+          (viewDetails)="selectAccount($event)">
+        </app-account-card>
+      </div>
+    }
   </div>
 </div>
