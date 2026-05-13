@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AnalyticsService } from './core/analytics/analytics.service';
-import {
-  setAnalyticsService,
-} from './shared/decorators/track-event.decorator';
+import { AnalyticsService } from './core/services/analytics.service';
+import { setAnalyticsService } from './core/decorators/track-event.decorator';
 
 @Component({
   selector: 'app-root',

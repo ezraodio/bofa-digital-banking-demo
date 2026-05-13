@@ -1,0 +1,11 @@
+<mat-chip-list #chipList aria-label="Filter selection">
+  <mat-chip
+    *ngFor="let filter of filters"
+    [class.selected]="filter.active"
+    [selected]="filter.active"
+    (click)="toggleFilter(filter)"
+    (removed)="removeFilter(filter)">
+    {{ filter.label }}
+    <mat-icon matChipRemove *ngIf="filter.active">cancel</mat-icon>
+  </mat-chip>
+</mat-chip-list>

@@ -1,0 +1,20 @@
+<mat-card class="balance-card">
+  <mat-card-header>
+    <mat-icon mat-card-avatar>account_balance_wallet</mat-icon>
+    <mat-card-title>Total Balance</mat-card-title>
+    <mat-card-subtitle>Across all accounts</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="total-balance">{{ totalBalance | currency }}</div>
+    <div class="available-balance" *ngIf="showBreakdown">
+      Available: {{ totalAvailable | currency }}
+    </div>
+    <mat-divider *ngIf="showBreakdown"></mat-divider>
+    <div class="breakdown" *ngIf="showBreakdown">
+      <div class="breakdown-item" *ngFor="let account of accounts">
+        <span class="account-name">{{ account.name }}</span>
+        <span class="account-balance">{{ account.balance | currency }}</span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

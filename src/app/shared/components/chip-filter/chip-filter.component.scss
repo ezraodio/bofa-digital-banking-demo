@@ -1,0 +1,18 @@
+// Custom CSS targeting pre-MDC Material internal classes — WILL BREAK in v15+
+.mat-chip-list-wrapper {
+  gap: 8px;
+}
+
+.mat-chip.mat-standard-chip {
+  background-color: #012169;
+  color: white;
+}
+
+.mat-chip.mat-standard-chip.mat-chip-selected {
+  background-color: #c41230;
+}
+
+:host {
+  display: block;
+  margin-bottom: 16px;
+}

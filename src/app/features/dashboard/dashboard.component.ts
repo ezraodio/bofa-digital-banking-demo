@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../core/auth/auth.service';
-import { AnalyticsService } from '../../core/analytics/analytics.service';
+import { AuthService } from '../../core/services/auth.service';
+import { AnalyticsService } from '../../core/services/analytics.service';
+import { ChipFilter } from '../../shared/components/chip-filter/chip-filter.component';
 import {
   Account,
   AccountType,
@@ -22,8 +23,15 @@ export class DashboardComponent implements OnInit {
   user: UserProfile | null = null;
   accounts: Account[] = [];
   recentTransactions: Transaction[] = [];
+  filteredTransactions: Transaction[] = [];
   alerts: Alert[] = [];
-  sidebarCollapsed = false;
+  transactionFilters: ChipFilter[] = [
+    { label: 'All', value: 'all', active: true },
+    { label: 'Credits', value: 'CREDIT', active: false },
+    { label: 'Debits', value: 'DEBIT', active: false },
+    { label: 'Transfers', value: 'TRANSFER', active: false },
+    { label: 'Payments', value: 'PAYMENT', active: false },
+  ];
 
   constructor(
     private authService: AuthService,
@@ -33,6 +41,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.authService.currentUser;
     this.loadMockData();
+    this.filteredTransactions = [...this.recentTransactions];
     this.analyticsService.trackPageView('/dashboard', 'Dashboard');
   }
 
@@ -51,7 +60,7 @@ export class DashboardComponent implements OnInit {
   onTransactionSelected(transaction: Transaction): void {
     this.analyticsService.trackUserAction(
       'select_transaction',
-      'transaction_table',
+      'transaction_list',
       transaction.id
     );
   }
@@ -64,16 +73,16 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onToggleSidebar(): void {
-    this.sidebarCollapsed = !this.sidebarCollapsed;
-  }
-
-  onNavigate(route: string): void {
-    this.analyticsService.trackUserAction('navigate', 'sidebar', route);
-  }
-
-  onLogout(): void {
-    this.authService.logout();
+  onFilterChange(filters: ChipFilter[]): void {
+    const activeFilters = filters.filter((f) => f.active && f.value !== 'all');
+    if (activeFilters.length === 0) {
+      this.filteredTransactions = [...this.recentTransactions];
+    } else {
+      const types = activeFilters.map((f) => f.value);
+      this.filteredTransactions = this.recentTransactions.filter((tx) =>
+        types.includes(tx.type)
+      );
+    }
   }
 
   private loadMockData(): void {
@@ -107,17 +116,6 @@ export class DashboardComponent implements OnInit {
         name: 'Cash Rewards Visa',
         balance: -2341.56,
         availableBalance: 7658.44,
-        currency: 'USD',
-        lastUpdated: new Date(),
-        status: AccountStatus.ACTIVE,
-      },
-      {
-        id: 'acc_004',
-        accountNumber: '9876543210',
-        accountType: AccountType.INVESTMENT,
-        name: 'Merrill Edge Portfolio',
-        balance: 128750.32,
-        availableBalance: 128750.32,
         currency: 'USD',
         lastUpdated: new Date(),
         status: AccountStatus.ACTIVE,

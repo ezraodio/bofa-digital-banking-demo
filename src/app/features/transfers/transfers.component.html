@@ -1,0 +1,30 @@
+<div class="transfers-content">
+  <h2 class="page-title">Transfer Funds</h2>
+
+  <div class="transfers-layout">
+    <div class="transfer-form-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>New Transfer</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-transfer-form
+            [accounts]="accounts"
+            (transferSubmit)="onTransferSubmit($event)">
+          </app-transfer-form>
+          <div *ngIf="transferSuccess" class="success-message">
+            Transfer submitted successfully!
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="selected-account" *ngIf="selectedAccount">
+      <h3>Source Account</h3>
+      <app-account-card
+        [account]="selectedAccount"
+        (viewDetails)="selectAccount($event)">
+      </app-account-card>
+    </div>
+  </div>
+</div>

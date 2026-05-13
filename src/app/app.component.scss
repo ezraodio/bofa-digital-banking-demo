@@ -1,0 +1,40 @@
+.bofa-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background-color: #012169;
+
+  mat-icon:first-child {
+    margin-right: 8px;
+  }
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-sidenav-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+mat-sidenav {
+  width: 240px;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+}
+
+.active {
+  background-color: rgba(196, 18, 48, 0.08);
+  color: #c41230;
+}

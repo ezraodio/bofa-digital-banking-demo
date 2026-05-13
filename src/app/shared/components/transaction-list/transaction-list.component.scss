@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+mat-list-item {
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(1, 33, 105, 0.04);
+  }
+}
+
+.amount {
+  font-weight: 600;
+  font-size: 14px;
+  margin-left: auto;
+
+  &.credit {
+    color: #2e7d32;
+  }
+
+  &.debit {
+    color: #c41230;
+  }
+}

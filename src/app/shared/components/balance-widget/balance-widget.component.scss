@@ -1,0 +1,40 @@
+.balance-card {
+  margin-bottom: 24px;
+}
+
+.total-balance {
+  font-size: 32px;
+  font-weight: 700;
+  color: #012169;
+  margin: 16px 0 8px;
+}
+
+.available-balance {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.breakdown {
+  margin-top: 16px;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.account-name {
+  color: #333;
+}
+
+.account-balance {
+  font-weight: 600;
+  color: #012169;
+}

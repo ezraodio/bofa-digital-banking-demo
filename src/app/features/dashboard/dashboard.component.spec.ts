@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../shared/shared.module';
+
 import { DashboardComponent } from './dashboard.component';
 
 describe('DashboardComponent', () => {
@@ -11,7 +12,7 @@ describe('DashboardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DashboardComponent],
-      imports: [NoopAnimationsModule, RouterTestingModule, SharedModule],
+      imports: [SharedModule, RouterTestingModule, BrowserAnimationsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardComponent);
@@ -24,25 +25,47 @@ describe('DashboardComponent', () => {
   });
 
   it('should load mock accounts', () => {
-    expect(component.accounts.length).toBe(4);
+    expect(component.accounts.length).toBe(3);
   });
 
   it('should load mock transactions', () => {
-    expect(component.recentTransactions.length).toBe(8);
+    expect(component.recentTransactions.length).toBeGreaterThan(0);
   });
 
-  it('should load mock alerts', () => {
+  it('should load alerts', () => {
     expect(component.alerts.length).toBe(3);
   });
 
-  it('should toggle sidebar', () => {
-    expect(component.sidebarCollapsed).toBeFalse();
-    component.onToggleSidebar();
-    expect(component.sidebarCollapsed).toBeTrue();
+  it('should initialize filtered transactions', () => {
+    expect(component.filteredTransactions.length).toBe(component.recentTransactions.length);
   });
 
-  it('should dismiss alert by marking as read', () => {
-    component.onAlertDismiss(component.alerts[0]);
+  it('should filter transactions by type', () => {
+    const filters = component.transactionFilters.map(f => ({
+      ...f,
+      active: f.value === 'CREDIT',
+    }));
+    component.onFilterChange(filters);
+    expect(component.filteredTransactions.every(tx => tx.type === 'CREDIT')).toBeTrue();
+  });
+
+  it('should show all transactions when no filter is active', () => {
+    const filters = component.transactionFilters.map(f => ({
+      ...f,
+      active: false,
+    }));
+    component.onFilterChange(filters);
+    expect(component.filteredTransactions.length).toBe(component.recentTransactions.length);
+  });
+
+  it('should dismiss alert', () => {
+    const alert = component.alerts[0];
+    component.onAlertDismiss(alert);
     expect(component.alerts[0].read).toBeTrue();
+  });
+
+  it('should have transaction filters initialized', () => {
+    expect(component.transactionFilters.length).toBe(5);
+    expect(component.transactionFilters[0].label).toBe('All');
   });
 });

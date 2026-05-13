@@ -1,1 +1,25 @@
-<router-outlet></router-outlet>
+<mat-toolbar color="primary" class="bofa-toolbar">
+  <mat-icon>account_balance</mat-icon>
+  <span class="app-title">Digital Banking</span>
+  <span class="spacer"></span>
+  <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+  <button mat-icon-button><mat-icon>account_circle</mat-icon></button>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>Dashboard</span>
+      </a>
+      <a mat-list-item routerLink="/transfers" routerLinkActive="active">
+        <mat-icon matListItemIcon>swap_horiz</mat-icon>
+        <span matListItemTitle>Transfers</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
