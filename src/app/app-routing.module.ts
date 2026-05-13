@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './core/guards/auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -9,7 +9,7 @@ const routes: Routes = [
       import('./features/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'transfers',
@@ -17,7 +17,7 @@ const routes: Routes = [
       import('./features/transfers/transfers.module').then(
         (m) => m.TransfersModule
       ),
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
   {
     path: '',
