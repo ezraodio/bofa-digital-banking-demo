@@ -15,35 +15,43 @@
           {{ account.availableBalance | currency: account.currency }}
         </span>
       </div>
-      <div class="balance-row" *ngIf="!compact">
-        <span class="balance-label">Current Balance</span>
-        <span class="balance-amount secondary">
-          {{ account.balance | currency: account.currency }}
+      @if (!compact) {
+        <div class="balance-row">
+          <span class="balance-label">Current Balance</span>
+          <span class="balance-amount secondary">
+            {{ account.balance | currency: account.currency }}
+          </span>
+        </div>
+      }
+    </div>
+
+    @if (!isActive) {
+      <div class="status-section">
+        <span class="status-badge warn">
+          {{ account.status }}
         </span>
       </div>
-    </div>
+    }
 
-    <div class="status-section" *ngIf="!isActive">
-      <span class="status-badge warn">
-        {{ account.status }}
-      </span>
-    </div>
-
-    <div class="updated-section" *ngIf="!compact">
-      <span class="updated-text">
-        Last updated: {{ account.lastUpdated | date: 'short' }}
-      </span>
-    </div>
+    @if (!compact) {
+      <div class="updated-section">
+        <span class="updated-text">
+          Last updated: {{ account.lastUpdated | date: 'short' }}
+        </span>
+      </div>
+    }
   </mat-card-content>
 
-  <mat-card-actions *ngIf="showActions && isActive" align="end">
-    <button mat-button color="primary" (click)="onViewDetails()">
-      <mat-icon>visibility</mat-icon>
-      View Details
-    </button>
-    <button mat-raised-button color="accent" (click)="onQuickTransfer()">
-      <mat-icon>swap_horiz</mat-icon>
-      Transfer
-    </button>
-  </mat-card-actions>
+  @if (showActions && isActive) {
+    <mat-card-actions align="end">
+      <button mat-button color="primary" (click)="onViewDetails()">
+        <mat-icon>visibility</mat-icon>
+        View Details
+      </button>
+      <button mat-raised-button color="accent" (click)="onQuickTransfer()">
+        <mat-icon>swap_horiz</mat-icon>
+        Transfer
+      </button>
+    </mat-card-actions>
+  }
 </mat-card>

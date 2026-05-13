@@ -6,15 +6,19 @@
   </mat-card-header>
   <mat-card-content>
     <div class="total-balance">{{ totalBalance | currency }}</div>
-    <div class="available-balance" *ngIf="showBreakdown">
-      Available: {{ totalAvailable | currency }}
-    </div>
-    <mat-divider *ngIf="showBreakdown"></mat-divider>
-    <div class="breakdown" *ngIf="showBreakdown">
-      <div class="breakdown-item" *ngFor="let account of accounts">
-        <span class="account-name">{{ account.name }}</span>
-        <span class="account-balance">{{ account.balance | currency }}</span>
+    @if (showBreakdown) {
+      <div class="available-balance">
+        Available: {{ totalAvailable | currency }}
       </div>
-    </div>
+      <mat-divider></mat-divider>
+      <div class="breakdown">
+        @for (account of accounts; track account.id) {
+          <div class="breakdown-item">
+            <span class="account-name">{{ account.name }}</span>
+            <span class="account-balance">{{ account.balance | currency }}</span>
+          </div>
+        }
+      </div>
+    }
   </mat-card-content>
 </mat-card>

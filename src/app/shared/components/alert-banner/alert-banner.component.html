@@ -1,32 +1,38 @@
-<div class="alert-container" *ngIf="visibleAlerts.length > 0">
-  <div
-    *ngFor="let alert of visibleAlerts"
-    class="alert-item"
-    [class]="'alert-' + alert.type.toLowerCase()"
-  >
-    <mat-icon class="alert-icon">{{ getAlertIcon(alert.type) }}</mat-icon>
-    <div class="alert-content">
-      <span class="alert-title">{{ alert.title }}</span>
-      <span class="alert-message">{{ alert.message }}</span>
-    </div>
-    <div class="alert-actions">
-      <button
-        mat-button
-        *ngIf="alert.actionUrl"
-        [color]="getAlertColor(alert.type)"
-        (click)="onAction(alert)"
+@if (visibleAlerts.length > 0) {
+  <div class="alert-container">
+    @for (alert of visibleAlerts; track alert.id) {
+      <div
+        class="alert-item"
+        [class]="'alert-' + alert.type.toLowerCase()"
       >
-        View
-      </button>
-      <button mat-icon-button (click)="onDismiss(alert)">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </div>
+        <mat-icon class="alert-icon">{{ getAlertIcon(alert.type) }}</mat-icon>
+        <div class="alert-content">
+          <span class="alert-title">{{ alert.title }}</span>
+          <span class="alert-message">{{ alert.message }}</span>
+        </div>
+        <div class="alert-actions">
+          @if (alert.actionUrl) {
+            <button
+              mat-button
+              [color]="getAlertColor(alert.type)"
+              (click)="onAction(alert)"
+            >
+              View
+            </button>
+          }
+          <button mat-icon-button (click)="onDismiss(alert)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    }
 
-  <div class="more-alerts" *ngIf="unreadCount > maxVisible">
-    <span class="more-badge">
-      +{{ unreadCount - maxVisible }} more alerts
-    </span>
+    @if (unreadCount > maxVisible) {
+      <div class="more-alerts">
+        <span class="more-badge">
+          +{{ unreadCount - maxVisible }} more alerts
+        </span>
+      </div>
+    }
   </div>
-</div>
+}
