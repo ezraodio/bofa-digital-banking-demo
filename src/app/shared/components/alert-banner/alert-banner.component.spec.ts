@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
 import { AlertBannerComponent } from './alert-banner.component';
 import { Alert, AlertType } from '../../models/account.model';
 
@@ -40,7 +39,7 @@ describe('AlertBannerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AlertBannerComponent],
-      imports: [MatIconModule, MatButtonModule, MatChipsModule],
+      imports: [MatIconModule, MatButtonModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AlertBannerComponent);
