@@ -3,7 +3,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 
 import { TransactionListComponent } from './transaction-list.component';
-import { Transaction, TransactionType, TransactionStatus } from '../../models/account.model';
+import { Transaction, TransactionType, TransactionStatus } from '../../models/transaction.model';
 
 describe('TransactionListComponent', () => {
   let component: TransactionListComponent;

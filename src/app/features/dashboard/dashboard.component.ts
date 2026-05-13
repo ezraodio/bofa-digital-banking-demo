@@ -6,13 +6,15 @@ import {
   Account,
   AccountType,
   AccountStatus,
-  Transaction,
-  TransactionType,
-  TransactionStatus,
   Alert,
   AlertType,
   UserProfile,
 } from '../../shared/models/account.model';
+import {
+  Transaction,
+  TransactionType,
+  TransactionStatus,
+} from '../../shared/models/transaction.model';
 
 @Component({
   selector: 'app-dashboard',

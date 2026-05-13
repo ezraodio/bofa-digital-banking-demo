@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Transaction } from '../../models/account.model';
+import { Transaction } from '../../models/transaction.model';
 
 @Component({
   selector: 'app-transaction-list',
