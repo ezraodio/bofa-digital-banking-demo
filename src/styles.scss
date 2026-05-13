@@ -2,107 +2,31 @@
 // BofA Digital Banking — Custom Design System Theme
 // Enterprise component library theming layer on Angular Material
 // Owner: Platform Engineering — Design Systems Team
-// Last updated: 2024-01-15
 // =============================================================================
 
 @use '@angular/material' as mat;
 
-@include mat.core();
-
 // ---------------------------------------------------------------------------
-// BofA Brand Palette
+// BofA Brand Palette — M3 Theme Configuration
 // Source: Brand Identity Guidelines v4.2 (Internal)
-// Primary: BofA Red — used for primary actions, headers, key CTAs
-// Accent:  BofA Navy — used for navigation, secondary elements, data viz
-// Warn:    Crimson — used for alerts, errors, fraud notifications
+// Primary: BofA Red (#c41230) — used for primary actions, headers, key CTAs
+// Tertiary: BofA Navy (#012169) — used for navigation, secondary elements
 // ---------------------------------------------------------------------------
-$bofa-red: (
-  50:  #fce4e8,
-  100: #f7bcc5,
-  200: #f1909f,
-  300: #eb6479,
-  400: #e7435c,
-  500: #c41230,  // BofA primary red
-  600: #b3102b,
-  700: #9e0d25,
-  800: #8a0b1f,
-  900: #690714,
-  A100: #ff8a98,
-  A200: #ff5768,
-  A400: #ff2440,
-  A700: #ff0a2a,
-  contrast: (
-    50:  rgba(0, 0, 0, 0.87),
-    100: rgba(0, 0, 0, 0.87),
-    200: rgba(0, 0, 0, 0.87),
-    300: #ffffff,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: rgba(0, 0, 0, 0.87),
-    A200: #ffffff,
-    A400: #ffffff,
-    A700: #ffffff,
-  )
-);
-
-$bofa-navy: (
-  50:  #e3e5ea,
-  100: #b9bdcb,
-  200: #8b92a8,
-  300: #5d6785,
-  400: #3a466b,
-  500: #012169,  // BofA navy blue
-  600: #011d5f,
-  700: #011854,
-  800: #011349,
-  900: #000b36,
-  A100: #6e7fff,
-  A200: #3b52ff,
-  A400: #0826ff,
-  A700: #001bee,
-  contrast: (
-    50:  rgba(0, 0, 0, 0.87),
-    100: rgba(0, 0, 0, 0.87),
-    200: rgba(0, 0, 0, 0.87),
-    300: #ffffff,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #ffffff,
-    A200: #ffffff,
-    A400: #ffffff,
-    A700: #ffffff,
-  )
-);
-
-$bofa-primary: mat.define-palette($bofa-red, 500, 300, 800);
-$bofa-accent:  mat.define-palette($bofa-navy, 500, 300, 800);
-$bofa-warn:    mat.define-palette(mat.$red-palette);
-
-// ---------------------------------------------------------------------------
-// Theme Configuration
-// Uses legacy define-light-theme API (Angular Material 14)
-// Migration note: must update to M3 theming API in Angular Material 18
-// ---------------------------------------------------------------------------
-$bofa-theme: mat.define-light-theme((
+$bofa-theme: mat.define-theme((
   color: (
-    primary: $bofa-primary,
-    accent: $bofa-accent,
-    warn: $bofa-warn,
+    theme-type: light,
+    primary: mat.$red-palette,
+    tertiary: mat.$blue-palette,
   ),
-  typography: mat.define-typography-config(
-    $font-family: '"Connections", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  typography: (
+    brand-family: '"Connections", "Helvetica Neue", Helvetica, Arial, sans-serif',
+    plain-family: '"Connections", "Helvetica Neue", Helvetica, Arial, sans-serif',
   ),
 ));
 
-@include mat.all-component-themes($bofa-theme);
+html {
+  @include mat.all-component-themes($bofa-theme);
+}
 
 // ---------------------------------------------------------------------------
 // Global Styles — Enterprise Design System Overrides
@@ -124,12 +48,12 @@ body {
   }
 }
 
-.mat-card {
+.mat-mdc-card {
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
-.mat-raised-button {
+.mat-mdc-raised-button {
   &.mat-accent {
     background-color: #012169;
     color: #ffffff;
