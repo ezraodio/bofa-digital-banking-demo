@@ -24,11 +24,11 @@
     </div>
 
     <div class="status-section" *ngIf="!isActive">
-      <mat-chip-list>
-        <mat-chip color="warn" selected>
+      <mat-chip-set>
+        <mat-chip color="warn" highlighted>
           {{ account.status }}
         </mat-chip>
-      </mat-chip-list>
+      </mat-chip-set>
     </div>
 
     <div class="updated-section" *ngIf="!compact">

@@ -25,10 +25,10 @@
   </div>
 
   <div class="more-alerts" *ngIf="unreadCount > maxVisible">
-    <mat-chip-list>
-      <mat-chip color="primary" selected>
+    <mat-chip-set>
+      <mat-chip color="primary" highlighted>
         +{{ unreadCount - maxVisible }} more alerts
       </mat-chip>
-    </mat-chip-list>
+    </mat-chip-set>
   </div>
 </div>
