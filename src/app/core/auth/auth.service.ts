@@ -29,6 +29,10 @@ export class AuthService {
   public user$ = this.userSubject.asObservable();
   public mfaRequired$ = this.mfaRequiredSubject.asObservable();
 
+  constructor() {
+    this.bootstrapDemoSession();
+  }
+
   get isAuthenticated(): boolean {
     const token = this.tokenSubject.value;
     return token !== null && token.expiresAt > Date.now();
@@ -106,6 +110,19 @@ export class AuthService {
     this.tokenSubject.next(null);
     this.userSubject.next(null);
     this.mfaRequiredSubject.next(false);
+    this.bootstrapDemoSession();
+  }
+
+  private bootstrapDemoSession(): void {
+    this.tokenSubject.next({
+      accessToken: 'demo_access_token',
+      refreshToken: 'demo_refresh_token',
+      expiresAt: Date.now() + 3600000,
+      tokenType: 'Bearer',
+      ssoSessionId: 'demo_sso_session',
+    });
+    this.mfaRequiredSubject.next(false);
+    this.loadUserProfile();
   }
 
   private loadUserProfile(): void {
