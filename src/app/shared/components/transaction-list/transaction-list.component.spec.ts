@@ -1,6 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
 
 import { TransactionListComponent } from './transaction-list.component';
 import { Transaction, TransactionType, TransactionStatus } from '../../models/transaction.model';
@@ -47,8 +45,7 @@ describe('TransactionListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TransactionListComponent],
-      imports: [MatListModule, MatIconModule],
+      imports: [TransactionListComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionListComponent);

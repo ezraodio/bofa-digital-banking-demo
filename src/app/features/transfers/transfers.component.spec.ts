@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from '../../shared/shared.module';
 
 import { TransfersComponent } from './transfers.component';
 
@@ -11,8 +10,7 @@ describe('TransfersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TransfersComponent],
-      imports: [SharedModule, RouterTestingModule, BrowserAnimationsModule],
+      imports: [TransfersComponent, RouterTestingModule, BrowserAnimationsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransfersComponent);
