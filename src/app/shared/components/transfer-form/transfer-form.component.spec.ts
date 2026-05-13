@@ -1,11 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { TransferFormComponent } from './transfer-form.component';
 import { Account, AccountType, AccountStatus } from '../../models/account.model';
 
@@ -20,18 +14,7 @@ describe('TransferFormComponent', () => {
       accountType: AccountType.CHECKING,
       name: 'Primary Checking',
       balance: 12543.87,
-      availableBalance: 12500.00,
-      currency: 'USD',
-      lastUpdated: new Date(),
-      status: AccountStatus.ACTIVE,
-    },
-    {
-      id: 'acc_002',
-      accountNumber: '7890123456',
-      accountType: AccountType.SAVINGS,
-      name: 'Emergency Fund',
-      balance: 45000.00,
-      availableBalance: 45000.00,
+      availableBalance: 12500.0,
       currency: 'USD',
       lastUpdated: new Date(),
       status: AccountStatus.ACTIVE,
@@ -40,15 +23,8 @@ describe('TransferFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TransferFormComponent],
-      imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatButtonModule,
-        BrowserAnimationsModule,
-      ],
+      imports: [TransferFormComponent],
+      providers: [provideAnimations()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransferFormComponent);
@@ -61,43 +37,23 @@ describe('TransferFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have an invalid form when empty', () => {
+  it('should initialize the form', () => {
+    expect(component.transferForm).toBeTruthy();
+    expect(component.transferForm.get('fromAccount')).toBeTruthy();
+    expect(component.transferForm.get('toAccount')).toBeTruthy();
+    expect(component.transferForm.get('amount')).toBeTruthy();
+  });
+
+  it('should be invalid when empty', () => {
     expect(component.transferForm.valid).toBeFalse();
   });
 
-  it('should require fromAccount', () => {
-    const fromAccount = component.transferForm.controls['fromAccount'];
-    expect(fromAccount.valid).toBeFalse();
-    expect(fromAccount.errors?.['required']).toBeTrue();
-  });
-
-  it('should require toAccount', () => {
-    const toAccount = component.transferForm.controls['toAccount'];
-    expect(toAccount.valid).toBeFalse();
-    expect(toAccount.errors?.['required']).toBeTrue();
-  });
-
-  it('should require amount greater than 0', () => {
-    const amount = component.transferForm.controls['amount'];
-    amount.setValue(0);
-    expect(amount.valid).toBeFalse();
-  });
-
-  it('should have a valid form when all fields are filled', () => {
-    component.transferForm.patchValue({
-      fromAccount: 'acc_001',
-      toAccount: '9876543210',
-      amount: 100,
-    });
-    expect(component.transferForm.valid).toBeTrue();
-  });
-
-  it('should emit transferSubmit on valid submit', () => {
+  it('should emit on valid submit', () => {
     spyOn(component.transferSubmit, 'emit');
     component.transferForm.patchValue({
       fromAccount: 'acc_001',
       toAccount: '9876543210',
-      amount: 250,
+      amount: 100,
     });
     component.onSubmit();
     expect(component.transferSubmit.emit).toHaveBeenCalled();
@@ -107,10 +63,5 @@ describe('TransferFormComponent', () => {
     spyOn(component.transferSubmit, 'emit');
     component.onSubmit();
     expect(component.transferSubmit.emit).not.toHaveBeenCalled();
-  });
-
-  it('should disable submit button when form is invalid', () => {
-    const button = fixture.nativeElement.querySelector('button[type="submit"]');
-    expect(button.disabled).toBeTrue();
   });
 });

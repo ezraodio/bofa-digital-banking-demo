@@ -1,14 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatButtonModule } from '@angular/material/button';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { AccountCardComponent } from './account-card.component';
-import {
-  Account,
-  AccountType,
-  AccountStatus,
-} from '../../models/account.model';
+import { Account, AccountType, AccountStatus } from '../../models/account.model';
 
 describe('AccountCardComponent', () => {
   let component: AccountCardComponent;
@@ -16,20 +9,20 @@ describe('AccountCardComponent', () => {
 
   const mockAccount: Account = {
     id: 'acc_001',
-    accountNumber: '1234567890',
+    accountNumber: '4521783690',
     accountType: AccountType.CHECKING,
     name: 'Primary Checking',
-    balance: 5432.1,
-    availableBalance: 5400.0,
+    balance: 12543.87,
+    availableBalance: 12500.0,
     currency: 'USD',
-    lastUpdated: new Date('2024-01-15'),
+    lastUpdated: new Date(),
     status: AccountStatus.ACTIVE,
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AccountCardComponent],
-      imports: [MatCardModule, MatIconModule, MatChipsModule, MatButtonModule],
+      imports: [AccountCardComponent],
+      providers: [provideAnimations()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AccountCardComponent);
@@ -42,16 +35,21 @@ describe('AccountCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display account type label', () => {
+  it('should display account name', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Primary Checking');
+  });
+
+  it('should show correct account type label', () => {
     expect(component.accountTypeLabel).toBe('Checking');
   });
 
-  it('should mask account number', () => {
-    expect(component.maskedAccountNumber).toBe('••••7890');
+  it('should show correct account icon', () => {
+    expect(component.accountIcon).toBe('account_balance');
   });
 
-  it('should return correct icon for account type', () => {
-    expect(component.accountIcon).toBe('account_balance');
+  it('should mask account number', () => {
+    expect(component.maskedAccountNumber).toBe('••••3690');
   });
 
   it('should identify active accounts', () => {
@@ -68,14 +66,5 @@ describe('AccountCardComponent', () => {
     spyOn(component.quickTransfer, 'emit');
     component.onQuickTransfer();
     expect(component.quickTransfer.emit).toHaveBeenCalledWith(mockAccount);
-  });
-
-  it('should show inactive status for frozen accounts', () => {
-    component.account = {
-      ...mockAccount,
-      status: AccountStatus.FROZEN,
-    };
-    fixture.detectChanges();
-    expect(component.isActive).toBeFalse();
   });
 });

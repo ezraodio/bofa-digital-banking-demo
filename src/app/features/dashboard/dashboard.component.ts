@@ -204,7 +204,7 @@ export class DashboardComponent implements OnInit {
         title: 'Suspicious Activity Detected',
         message:
           'Unusual login attempt from a new device in Dallas, TX. Please verify.',
-        date: new Date(),
+        timestamp: new Date(),
         read: false,
         actionUrl: '/security',
       },
@@ -214,7 +214,7 @@ export class DashboardComponent implements OnInit {
         title: 'Low Balance Alert',
         message:
           'Your Primary Checking balance is below $500.',
-        date: new Date(),
+        timestamp: new Date(),
         read: false,
       },
       {
@@ -223,7 +223,7 @@ export class DashboardComponent implements OnInit {
         title: 'New Savings Rate',
         message:
           'Earn 4.5% APY with a new BofA High Yield Savings account.',
-        date: new Date(),
+        timestamp: new Date(),
         read: false,
         actionUrl: '/offers',
       },
