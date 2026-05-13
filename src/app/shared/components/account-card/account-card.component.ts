@@ -1,8 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { Account, AccountType, AccountStatus } from '../../models/account.model';
 
 @Component({
   selector: 'app-account-card',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule, MatChipsModule],
   templateUrl: './account-card.component.html',
   styleUrls: ['./account-card.component.scss'],
 })

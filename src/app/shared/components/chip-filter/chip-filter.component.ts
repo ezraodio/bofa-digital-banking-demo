@@ -1,4 +1,7 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface ChipFilter {
   label: string;
@@ -8,6 +11,8 @@ export interface ChipFilter {
 
 @Component({
   selector: 'app-chip-filter',
+  standalone: true,
+  imports: [CommonModule, MatChipsModule, MatIconModule],
   templateUrl: './chip-filter.component.html',
   styleUrls: ['./chip-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

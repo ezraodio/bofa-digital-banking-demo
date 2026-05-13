@@ -1,18 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { AnalyticsService } from './core/services/analytics.service';
-import { setAnalyticsService } from './core/decorators/track-event.decorator';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Digital Banking Portal';
-
-  constructor(private analyticsService: AnalyticsService) {}
-
-  ngOnInit(): void {
-    setAnalyticsService(this.analyticsService);
-  }
 }

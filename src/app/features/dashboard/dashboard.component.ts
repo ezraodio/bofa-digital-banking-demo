@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { AnalyticsService } from '../../core/services/analytics.service';
-import { ChipFilter } from '../../shared/components/chip-filter/chip-filter.component';
+import { AccountCardComponent } from '../../shared/components/account-card/account-card.component';
+import { TransactionListComponent } from '../../shared/components/transaction-list/transaction-list.component';
+import { AlertBannerComponent } from '../../shared/components/alert-banner/alert-banner.component';
+import { BalanceWidgetComponent } from '../../shared/components/balance-widget/balance-widget.component';
+import { ChipFilterComponent, ChipFilter } from '../../shared/components/chip-filter/chip-filter.component';
 import {
   Account,
   AccountType,
@@ -18,6 +23,15 @@ import {
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
+  imports: [
+    CommonModule,
+    AccountCardComponent,
+    TransactionListComponent,
+    AlertBannerComponent,
+    BalanceWidgetComponent,
+    ChipFilterComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
@@ -172,45 +186,14 @@ export class DashboardComponent implements OnInit {
       },
       {
         id: 'txn_005',
-        accountId: 'acc_001',
-        date: new Date('2024-01-13'),
-        description: 'Automatic bill payment',
-        amount: 150.0,
-        type: TransactionType.PAYMENT,
-        category: 'Utilities',
-        status: TransactionStatus.POSTED,
-        merchantName: 'Duke Energy',
-      },
-      {
-        id: 'txn_006',
         accountId: 'acc_002',
-        date: new Date('2024-01-12'),
+        date: new Date('2024-01-13'),
         description: 'Transfer from checking',
         amount: 500.0,
         type: TransactionType.CREDIT,
         category: 'Transfer',
         status: TransactionStatus.POSTED,
-      },
-      {
-        id: 'txn_007',
-        accountId: 'acc_003',
-        date: new Date('2024-01-11'),
-        description: 'Restaurant dinner',
-        amount: 86.5,
-        type: TransactionType.DEBIT,
-        category: 'Dining',
-        status: TransactionStatus.POSTED,
-        merchantName: 'The Capital Grille',
-      },
-      {
-        id: 'txn_008',
-        accountId: 'acc_001',
-        date: new Date('2024-01-10'),
-        description: 'Monthly service fee',
-        amount: 12.0,
-        type: TransactionType.FEE,
-        category: 'Fees',
-        status: TransactionStatus.POSTED,
+        merchantName: 'Internal Transfer',
       },
     ];
 
@@ -220,28 +203,29 @@ export class DashboardComponent implements OnInit {
         type: AlertType.FRAUD,
         title: 'Suspicious Activity Detected',
         message:
-          'An unusual transaction of $892.00 was attempted on your Cash Rewards Visa.',
-        timestamp: new Date(),
+          'Unusual login attempt from a new device in Dallas, TX. Please verify.',
+        date: new Date(),
         read: false,
-        actionUrl: '/alerts/alert_001',
+        actionUrl: '/security',
       },
       {
         id: 'alert_002',
         type: AlertType.WARNING,
-        title: 'Payment Due Soon',
+        title: 'Low Balance Alert',
         message:
-          'Your Cash Rewards Visa minimum payment of $65.00 is due on Jan 25.',
-        timestamp: new Date(),
+          'Your Primary Checking balance is below $500.',
+        date: new Date(),
         read: false,
-        actionUrl: '/bill-pay',
       },
       {
         id: 'alert_003',
-        type: AlertType.INFO,
-        title: 'January Statement Available',
-        message: 'Your Primary Checking statement is ready to view.',
-        timestamp: new Date(),
+        type: AlertType.PROMOTION,
+        title: 'New Savings Rate',
+        message:
+          'Earn 4.5% APY with a new BofA High Yield Savings account.',
+        date: new Date(),
         read: false,
+        actionUrl: '/offers',
       },
     ];
   }
