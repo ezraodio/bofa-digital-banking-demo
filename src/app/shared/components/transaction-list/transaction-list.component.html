@@ -1,14 +1,18 @@
 <mat-list>
-  <mat-list-item *ngFor="let tx of transactions" (click)="onSelect(tx)">
-    <mat-icon matListItemIcon [ngSwitch]="tx.type">
-      <span *ngSwitchCase="'CREDIT'">arrow_downward</span>
-      <span *ngSwitchCase="'DEBIT'">arrow_upward</span>
-      <span *ngSwitchDefault>swap_horiz</span>
-    </mat-icon>
-    <span matListItemTitle>{{ tx.description }}</span>
-    <span matListItemLine>{{ tx.date | date:'shortDate' }}</span>
-    <span class="amount" [class.credit]="tx.type === 'CREDIT'" [class.debit]="tx.type === 'DEBIT'">
-      {{ tx.type === 'DEBIT' ? '-' : '+' }}{{ tx.amount | currency }}
-    </span>
-  </mat-list-item>
+  @for (tx of transactions; track tx.id) {
+    <mat-list-item (click)="onSelect(tx)">
+      <mat-icon matListItemIcon>
+        @switch (tx.type) {
+          @case ('CREDIT') { arrow_downward }
+          @case ('DEBIT') { arrow_upward }
+          @default { swap_horiz }
+        }
+      </mat-icon>
+      <span matListItemTitle>{{ tx.description }}</span>
+      <span matListItemLine>{{ tx.date | date:'shortDate' }}</span>
+      <span class="amount" [class.credit]="tx.type === 'CREDIT'" [class.debit]="tx.type === 'DEBIT'">
+        {{ tx.type === 'DEBIT' ? '-' : '+' }}{{ tx.amount | currency }}
+      </span>
+    </mat-list-item>
+  }
 </mat-list>

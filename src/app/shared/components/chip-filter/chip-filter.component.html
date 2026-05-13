@@ -1,11 +1,14 @@
 <mat-chip-listbox aria-label="Filter selection">
-  <mat-chip-option
-    *ngFor="let filter of filters"
-    [class.selected]="filter.active"
-    [selected]="filter.active"
-    (click)="toggleFilter(filter)"
-    (removed)="removeFilter(filter)">
-    {{ filter.label }}
-    <mat-icon matChipRemove *ngIf="filter.active">cancel</mat-icon>
-  </mat-chip-option>
+  @for (filter of filters; track filter.value) {
+    <mat-chip-option
+      [class.selected]="filter.active"
+      [selected]="filter.active"
+      (click)="toggleFilter(filter)"
+      (removed)="removeFilter(filter)">
+      {{ filter.label }}
+      @if (filter.active) {
+        <mat-icon matChipRemove>cancel</mat-icon>
+      }
+    </mat-chip-option>
+  }
 </mat-chip-listbox>
