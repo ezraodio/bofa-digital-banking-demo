@@ -32,7 +32,7 @@ fi
 
 # 2. Delete any leftover migration branches
 echo -e "${YELLOW}[2/5] Cleaning up migration branches...${NC}"
-BRANCHES=$(gh api "repos/$REPO/branches" --jq '.[].name' 2>/dev/null | grep -v '^main$' | grep -v '^initial-setup$' || echo "")
+BRANCHES=$(gh api "repos/$REPO/branches" --jq '.[].name' 2>/dev/null | grep -v '^main$' || echo "")
 if [ -n "$BRANCHES" ]; then
   for branch in $BRANCHES; do
     echo "  Deleting branch: $branch"
@@ -61,6 +61,6 @@ echo "  [ ] Browser tab 2: Devin app with Playbook open"
 echo "  [ ] Browser tab 3: Comparison slide (https://comparison-slide-ljoqqeat.devinapps.com)"
 echo "  [ ] Browser tab 4: localhost:4200 (run: nvm use 16 && npm install && npx ng serve)"
 echo "  [ ] Network: Verify stable internet connection"
-echo "  [ ] Backup: Know where PR #1 backup is if live demo fails"
+echo "  [ ] Backup: PR #2 (https://github.com/$REPO/pull/2) is your fallback if live demo runs long"
 echo ""
 echo -e "${GREEN}=== Reset complete! Ready for demo ===${NC}"
