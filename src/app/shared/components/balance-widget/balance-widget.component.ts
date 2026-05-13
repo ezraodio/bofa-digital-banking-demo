@@ -1,8 +1,14 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import { Account } from '../../models/account.model';
 
 @Component({
   selector: 'app-balance-widget',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatIconModule, MatDividerModule],
   templateUrl: './balance-widget.component.html',
   styleUrls: ['./balance-widget.component.scss'],
 })
