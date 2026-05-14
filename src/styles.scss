@@ -65,8 +65,20 @@ body {
 
 .mat-mdc-raised-button {
   &.mat-accent {
-    background-color: #012169;
-    color: #ffffff;
+    --mdc-protected-button-container-color: #012169;
+    --mdc-protected-button-label-text-color: #ffffff;
+    --mat-protected-button-state-layer-color: #ffffff;
+    background-color: #012169 !important;
+    color: #ffffff !important;
+    --mdc-filled-button-container-color: #012169;
+    --mdc-filled-button-label-text-color: #ffffff;
+  }
+}
+
+.mat-mdc-button {
+  &.mat-primary {
+    --mdc-text-button-label-text-color: #c41230;
+    color: #c41230;
   }
 }
 
