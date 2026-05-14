@@ -1,4 +1,4 @@
-<mat-chip-listbox #chipList aria-label="Filter selection">
+<mat-chip-listbox #chipList aria-label="Filter selection" multiple>
   @for (filter of filters; track filter.value) {
     <mat-chip-option
       [class.selected]="filter.active"

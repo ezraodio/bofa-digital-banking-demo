@@ -26,6 +26,16 @@ $bofa-theme: mat.define-theme((
 
 html {
   @include mat.all-component-themes($bofa-theme);
+
+  // Override M3 system tokens with exact BofA brand colors
+  --mat-sys-primary: #c41230;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #ffdad6;
+  --mat-sys-on-primary-container: #410005;
+  --mat-sys-tertiary: #012169;
+  --mat-sys-on-tertiary: #ffffff;
+  --mat-sys-tertiary-container: #d6e3ff;
+  --mat-sys-on-tertiary-container: #001b3e;
 }
 
 // ---------------------------------------------------------------------------
