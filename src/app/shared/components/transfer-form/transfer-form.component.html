@@ -2,9 +2,11 @@
   <mat-form-field appearance="outline">
     <mat-label>From Account</mat-label>
     <mat-select formControlName="fromAccount">
-      <mat-option *ngFor="let acct of accounts" [value]="acct.id">
-        {{ acct.name }} ({{ acct.balance | currency }})
-      </mat-option>
+      @for (acct of accounts; track acct.id) {
+        <mat-option [value]="acct.id">
+          {{ acct.name }} ({{ acct.balance | currency }})
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
