@@ -57,7 +57,7 @@ echo "=== Pre-Demo Checklist ==="
 echo ""
 
 # Check branches
-REMOTE_BRANCHES=$(git ls-remote --heads origin 2>/dev/null | awk '{print $2}' | sed 's|refs/heads/||')
+REMOTE_BRANCHES=$(git ls-remote --heads origin 2>/dev/null | awk '{print $2}' | sed 's|refs/heads/||' || true)
 echo "Remote branches:"
 for b in $REMOTE_BRANCHES; do
   if [ "$b" = "main" ]; then
