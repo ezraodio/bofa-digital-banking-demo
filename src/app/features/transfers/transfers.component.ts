@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { AuthService } from '../../core/services/auth.service';
 import { AnalyticsService } from '../../core/services/analytics.service';
-import { TransferRequest } from '../../shared/components/transfer-form/transfer-form.component';
+import { TransferFormComponent, TransferRequest } from '../../shared/components/transfer-form/transfer-form.component';
+import { AccountCardComponent } from '../../shared/components/account-card/account-card.component';
 import {
   Account,
   AccountType,
@@ -10,6 +12,12 @@ import {
 
 @Component({
   selector: 'app-transfers',
+  standalone: true,
+  imports: [
+    MatCardModule,
+    TransferFormComponent,
+    AccountCardComponent,
+  ],
   templateUrl: './transfers.component.html',
   styleUrls: ['./transfers.component.scss'],
 })
