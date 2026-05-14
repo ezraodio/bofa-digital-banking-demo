@@ -15,7 +15,7 @@ Migrate this Angular 14 application to Angular 18. This Playbook is designed for
 **Authentication (CRITICAL):**
 - Identify ALL custom HTTP headers in interceptors and preserve them exactly
 - Preserve token refresh logic and request queuing patterns
-- Preserve route guard logic including MFA enforcement
+- Preserve route guard logic (isAuthenticated check). MFA lives in AuthService and should not be modified.
 
 **Material components:**
 - Migrate all legacy Material components to MDC equivalents

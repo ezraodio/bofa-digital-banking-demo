@@ -14,7 +14,7 @@ This app is a BofA-style digital banking portal. Migrate it from Angular 14.2.0 
 - **Brand colors must be preserved exactly:** Red `#c41230`, Navy `#012169`
 - **All 4 SSO headers must be preserved:** `Authorization`, `X-SSO-Session-Id`, `X-Request-Id`, `X-Client-Version`
 - **Token refresh with request queuing must be preserved** in the functional interceptor
-- **MFA enforcement must be preserved** in the functional guard
+- **MFA flow in AuthService must not be modified** — it is not part of the guard/interceptor migration
 - **Visual output must be identical** — the app should look the same before and after
 
 ## 8-Commit Structure
@@ -76,7 +76,7 @@ The app uses a demo session bootstrap in `auth.service.ts` that provides mock to
 
 Key files that need changes:
 - `src/app/core/interceptors/token.interceptor.ts` — SSO headers
-- `src/app/core/guards/auth.guard.ts` — MFA enforcement
+- `src/app/core/guards/auth.guard.ts` — route protection (isAuthenticated check)
 - `src/app/shared/components/chip-filter/chip-filter.component.html` — mat-chip-list
 - `src/app/shared/components/chip-filter/chip-filter.component.scss` — Material internal classes
 - `src/app/features/transfers/transfers.component.html` — appearance="legacy"

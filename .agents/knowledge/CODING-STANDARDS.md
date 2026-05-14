@@ -28,7 +28,7 @@ description: BofA Digital Banking coding standards, authentication patterns, and
   3. `X-Request-Id: <uuid>`
   4. `X-Client-Version: <version>`
 - **Token refresh on 401:** Queue pending requests, refresh token, replay queue
-- **AuthGuard:** Enforces authentication + MFA before route activation
+- **AuthGuard:** Enforces authentication (isAuthenticated check) before route activation. MFA is handled upstream in AuthService login flow.
 - **Demo mode:** `AuthService` auto-bootstraps a mock session for local development
 
 ## Testing Standards
