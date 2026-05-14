@@ -1,9 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { CurrencyPipe } from '@angular/common';
-
 import { BalanceWidgetComponent } from './balance-widget.component';
 import { Account, AccountType, AccountStatus } from '../../models/account.model';
 
@@ -38,8 +33,7 @@ describe('BalanceWidgetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BalanceWidgetComponent],
-      imports: [MatCardModule, MatDividerModule, MatIconModule],
+      imports: [BalanceWidgetComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BalanceWidgetComponent);

@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { ChipFilterComponent, ChipFilter } from './chip-filter.component';
 
@@ -18,8 +16,8 @@ describe('ChipFilterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ChipFilterComponent],
-      imports: [MatChipsModule, MatIconModule, BrowserAnimationsModule],
+      imports: [ChipFilterComponent],
+      providers: [provideAnimations()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ChipFilterComponent);
@@ -33,7 +31,7 @@ describe('ChipFilterComponent', () => {
   });
 
   it('should render all filter chips', () => {
-    const chips = fixture.nativeElement.querySelectorAll('mat-chip');
+    const chips = fixture.nativeElement.querySelectorAll('mat-chip-option');
     expect(chips.length).toBe(4);
   });
 
@@ -53,7 +51,7 @@ describe('ChipFilterComponent', () => {
   });
 
   it('should display filter labels', () => {
-    const chipTexts = fixture.nativeElement.querySelectorAll('mat-chip');
+    const chipTexts = fixture.nativeElement.querySelectorAll('mat-chip-option');
     expect(chipTexts[0].textContent).toContain('All');
     expect(chipTexts[1].textContent).toContain('Credits');
   });
